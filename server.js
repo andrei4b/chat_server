@@ -74,7 +74,7 @@ wsServer.on('request', function(request) {
         // get random color and send it back to the user
         
         connection.sendUTF(
-            JSON.stringify({type:"notification_message", data: "userName + " joined the group.""})); //JSON.stringify({ type:'color', data: userColor })
+            JSON.stringify({type:"notification_message", data: "userName + " joined the group.""})); 
         
         console.log((new Date()) + ' User is known as: ' + userName);
 
