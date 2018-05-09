@@ -72,11 +72,12 @@ wsServer.on('request', function(request) {
         // remember user name
         userName = htmlEntities(message.utf8Data);
         // get random color and send it back to the user
-        userColor = colors.shift();
+        
         connection.sendUTF(
-            JSON.stringify({ type:'color', data: userColor }));
-        console.log((new Date()) + ' User is known as: ' + userName
-                    + ' with ' + userColor + ' color.');
+            JSON.stringify({type:"notification_message", data: "userName + " joined the group.""})); //JSON.stringify({ type:'color', data: userColor })
+        
+        console.log((new Date()) + ' User is known as: ' + userName);
+
       } else { // log and broadcast the message
         console.log((new Date()) + ' Received Message from '
                     + userName + ': ' + message.utf8Data);
@@ -90,8 +91,10 @@ wsServer.on('request', function(request) {
         };
         history.push(obj);
         history = history.slice(-100);
+
         // broadcast message to all connected clients
         var json = JSON.stringify({ type:'message', data: obj });
+
         for (var i=0; i < clients.length; i++) {
           clients[i].sendUTF(json);
         }
