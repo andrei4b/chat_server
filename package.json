@@ -5,11 +5,11 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodejs server.js"
+    "start": "node server.js"
   },
   "author": "andreib",
   "license": "MIT",
   "engines": {
-    "nodejs": "4.2.6"
+    "node": "4.2.6"
   }
 }
