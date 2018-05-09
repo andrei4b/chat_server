@@ -11,5 +11,8 @@
   "license": "MIT",
   "engines": {
     "node": "4.2.6"
+  },
+  "dependencies": {
+    "websocket": "^1.0.26"
   }
 }
