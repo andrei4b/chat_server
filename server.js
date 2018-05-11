@@ -70,8 +70,9 @@ wsServer.on('request', function(request) {
         // remember user name
         userName = htmlEntities(message.utf8Data);
         
-        connection.sendUTF(
-            JSON.stringify({type: "notification_message", data: userName + " joined the group."})); 
+        for (var i=0; i < clients.length; i++) {
+          clients[i].sendUTF(JSON.stringify({type: "notification_message", data: userName + " joined the group."}));
+        }
         
         console.log((new Date()) + ' User is known as: ' + userName);
 
@@ -86,7 +87,7 @@ wsServer.on('request', function(request) {
           author: userName
         };
         history.push(obj);
-        history = history.slice(-100);
+        history = history.slice(-10);
 
         data_string = JSON.stringify(obj);
         // broadcast message to all connected clients	
