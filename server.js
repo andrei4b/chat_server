@@ -89,7 +89,7 @@ wsServer.on('request', function(request) {
         console.log((new Date()) + ' Received Message from '
                     + userName + ': ' + message.utf8Data);
 
-        var jsonChatMessage = JSON.parse(message);
+        var jsonChatMessage = JSON.parse(htmlEntities(message.utf8Data));
         
         // we want to keep history of all sent messages
         var obj = 
