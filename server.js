@@ -95,7 +95,7 @@ wsServer.on('request', function(request) {
         var obj = 
         {
           text: htmlEntities(jsonChatMessage.text),
-          time: jsonChatMessage.time//(new Date()).getTime(),
+          time: jsonChatMessage.time,//(new Date()).getTime(),
           author: jsonChatMessage.author,
           destination: jsonChatMessage.destination
         };
