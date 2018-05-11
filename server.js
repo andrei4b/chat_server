@@ -91,7 +91,6 @@ wsServer.on('request', function(request) {
         
         // we want to keep history of all sent messages
         var obj = //JSON.parse(htmlEntities(message.utf8Data));
-
         {
           text: htmlEntities(message.utf8Data),
           time: (new Date()).getTime(),
@@ -102,7 +101,7 @@ wsServer.on('request', function(request) {
         history.push(obj);
         history = history.slice(-10);
 
-        data_string = JSON.stringify(obj);
+        data_string = htmlEntities(JSON.stringify(obj).utf8Data);
         // broadcast message to all connected clients	
         var json = JSON.stringify({ type:'message', data: data_string });
 
