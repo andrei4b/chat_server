@@ -99,9 +99,11 @@ wsServer.on('request', function(request) {
 
         history.push(obj);
         history = history.slice(-10);
+        var obj_array = [];
+        obj_array.push(obj);
 
         // broadcast message to all connected clients	
-        var json = JSON.stringify({ type:'message', data: [].push(obj) });
+        var json = JSON.stringify({ type:'message', data: obj_array});
 
         for (var i=0; i < clients.length; i++) {
         	if(clients[i] != connection)
