@@ -54,11 +54,13 @@ wsServer.on('request', function(request) {
   // we need to know client index to remove them on 'close' event
   var index = clients.push(connection) - 1;
   var userName = false;
+  var data_string;
   console.log((new Date()) + ' Connection accepted.');
   // send back chat history
   if (history.length > 0) {
+  	data_string = JSON.stringify(history);
     connection.sendUTF(
-        JSON.stringify({ type: 'history', data: history} ));
+        JSON.stringify({ type: 'history', data: data_string } ));
   }
   // user sent some message
   connection.on('message', function(message) {
@@ -86,8 +88,9 @@ wsServer.on('request', function(request) {
         history.push(obj);
         history = history.slice(-100);
 
-        // broadcast message to all connected clients
-        var json = JSON.stringify({ type:'message', data: obj });
+        data_string = JSON.stringify(obj);
+        // broadcast message to all connected clients	
+        var json = JSON.stringify({ type:'message', data: data_string });
 
         for (var i=0; i < clients.length; i++) {
           clients[i].sendUTF(json);
