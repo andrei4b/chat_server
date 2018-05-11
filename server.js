@@ -76,7 +76,7 @@ wsServer.on('request', function(request) {
     // first message sent by user is their name
      if (userName === false) {
         // remember user name
-        userName = htmlEntities(message.utf8Data);
+        userName = message.utf8Data;
         
         /*for (var i=0; i < clients.length; i++) {
         	if(clients[i] != connection)
@@ -90,8 +90,6 @@ wsServer.on('request', function(request) {
                     + userName + ': ' + message.utf8Data);
 
         var jsonChatMessage = JSON.parse(message.utf8Data);
-        console.log(message.utf8Data);
-        console.log(htmlEntities(message.utf8Data));
         
         // we want to keep history of all sent messages
         var obj = 
@@ -104,8 +102,8 @@ wsServer.on('request', function(request) {
 
         history.push(obj);
         history = history.slice(-10);
-        var obj_array;
-        obj_array = [];
+        var obj_array = [];
+        obj_array.length = 0;
         obj_array.push(obj);
 
         // broadcast message to all connected clients	
