@@ -94,7 +94,7 @@ wsServer.on('request', function(request) {
         // we want to keep history of all sent messages
         var obj = 
         {
-          text: htmlEntities(jsonChatMessage.text.utf8Data),
+          text: htmlEntities(jsonChatMessage.text),
           time: jsonChatMessage.time//(new Date()).getTime(),
           author: jsonChatMessage.author,
           destination: jsonChatMessage.destination
