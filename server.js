@@ -63,6 +63,7 @@ wsServer.on('request', function(request) {
   var userName = false;
   
   console.log((new Date()) + ' Connection accepted.');
+
   // send back chat history
   if (history.length > 0) {
     connection.sendUTF(
@@ -87,19 +88,22 @@ wsServer.on('request', function(request) {
       } else { // log and broadcast the message
         console.log((new Date()) + ' Received Message from '
                     + userName + ': ' + message.utf8Data);
+
+        var jsonChatMessage = JSON.parse(message);
         
         // we want to keep history of all sent messages
-        var obj = //JSON.parse(htmlEntities(message.utf8Data));
+        var obj = 
         {
-          text: htmlEntities(message.utf8Data),
-          time: (new Date()).getTime(),
-          author: userName,
-          destination: "dest"
+          text: htmlEntities(jsonChatMessage.text.utf8Data),
+          time: jsonChatMessage.time//(new Date()).getTime(),
+          author: jsonChatMessage.author,
+          destination: jsonChatMessage.destination
         };
 
         history.push(obj);
         history = history.slice(-10);
-        var obj_array = [];
+        var obj_array;
+        obj_array = [];
         obj_array.push(obj);
 
         // broadcast message to all connected clients	
