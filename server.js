@@ -59,16 +59,16 @@ wsServer.on('request', function(request) {
   var connection = request.accept(null, request.origin); 
 
   // we need to know client index to remove them on 'close' event
-  var index = clients.push(connection) - 1;
+  var client, index;
   var userName = false;
   
   console.log((new Date()) + ' Connection accepted.');
 
   // send back chat history
-  if (history.length > 0) {
+  /*if (history.length > 0) {
     connection.sendUTF(
         JSON.stringify({ type: 'history', data: history } ));
-  }
+  }*/
 
   // user sent some message
   connection.on('message', function(message) {
@@ -77,7 +77,9 @@ wsServer.on('request', function(request) {
      if (userName === false) {
         // remember user name
         userName = message.utf8Data;
-        
+        client = { userName: userName, connection: connection };
+        index = clients.push(client) - 1;
+
         /*for (var i=0; i < clients.length; i++) {
         	if(clients[i] != connection)
           		clients[i].sendUTF(JSON.stringify({type: "notification_message", data: userName + " joined the group."}));
@@ -100,19 +102,23 @@ wsServer.on('request', function(request) {
           destination: jsonChatMessage.destination
         };
 
+        console.log("converted json fields: " + obj.text + " " + obj.time + " " + obj.author + " " + obj.destination);
+
         history.push(obj);
         history = history.slice(-10);
+
         var obj_array = [];
-        obj_array.length = 0;
+        ;
         obj_array.push(obj);
 
-        // broadcast message to all connected clients	
         var json = JSON.stringify({ type:'message', data: obj_array});
 
         for (var i=0; i < clients.length; i++) {
-        	if(clients[i] != connection)
+        	if(clients[i].userName == obj.destination)
           		clients[i].sendUTF(json);
         }
+
+        obj_array.pop();
       }
     }
   });
