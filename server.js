@@ -64,12 +64,6 @@ wsServer.on('request', function(request) {
   
   console.log((new Date()) + ' Connection accepted.');
 
-  // send back chat history
-  /*if (history.length > 0) {
-    connection.sendUTF(
-        JSON.stringify({ type: 'history', data: history } ));
-  }*/
-
   // user sent some message
   connection.on('message', function(message) {
     if (message.type === 'utf8') { // accept only text
@@ -79,6 +73,17 @@ wsServer.on('request', function(request) {
         userName = message.utf8Data;
         client = { userName: userName, connection: connection };
         index = clients.push(client) - 1;
+
+        // send back chat history
+		if (history.length > 0) {
+		  	var personal_history = [];
+		  	for(var i = 0; i < history.length; i++) {
+		  		if(history[i].author == userName || history[i].destination == userName)
+		  			personal_history.push(history[i]);
+		  	}
+		    connection.sendUTF(
+		        JSON.stringify({ type: 'history', data: personal_history } ));
+		}
 
         /*for (var i=0; i < clients.length; i++) {
         	if(clients[i] != connection)
@@ -108,7 +113,7 @@ wsServer.on('request', function(request) {
         history = history.slice(-10);
 
         var obj_array = [];
-        ;
+        
         obj_array.push(obj);
 
         var json = JSON.stringify({ type:'message', data: obj_array});
