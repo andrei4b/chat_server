@@ -115,7 +115,7 @@ wsServer.on('request', function(request) {
 
         for (var i=0; i < clients.length; i++) {
         	if(clients[i].userName == obj.destination)
-          		clients[i].sendUTF(json);
+          		clients[i].connection.sendUTF(json);
         }
 
         obj_array.pop();
